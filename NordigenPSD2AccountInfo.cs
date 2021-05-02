@@ -58,7 +58,7 @@ namespace NordigenPSD2Sharp
 
 		public async Task<Transactions> GetTransactionsAsync(string accountId)
     {
-			var transurl = burl + "accounts/" + accountId + "/transactions/";
+			var transurl = $"{burl}accounts/{accountId}/transactions/";
 			var c = SetupClient();
 			var trans = await c.GetFromJsonAsync<TransactionsMain>(transurl);
 			return trans.transactions;
