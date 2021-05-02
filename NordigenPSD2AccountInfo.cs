@@ -61,8 +61,8 @@ namespace NordigenPSD2Sharp
 			var transurl = $"{burl}accounts/{accountId}/transactions/";
 			var c = SetupClient();
 			var trans = await c.GetFromJsonAsync<TransactionsMain>(transurl);
-			return trans.transactions;
-			c.Dispose();
+      c.Dispose();
+      return trans.transactions;
 		}
   }
 
