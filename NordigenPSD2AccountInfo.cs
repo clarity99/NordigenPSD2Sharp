@@ -36,7 +36,19 @@ namespace NordigenPSD2Sharp
 		public Transactions transactions { get; set; }
 	}
 
-	public class NordigenPSD2AccountInfo
+  public class Balance
+  {
+    public TransactionAmount balanceAmount { get; set; }
+    public string balanceType { get; set; }
+    public DateTime lastChangeDateTime { get; set; }
+  }
+
+  class BalancesMain
+  {
+    public Balance[] balances { get; set; }
+  }
+
+  public class NordigenPSD2AccountInfo
   {
     private string _token;
 		private readonly string burl = "https://ob.nordigen.com/api/";
@@ -65,6 +77,15 @@ namespace NordigenPSD2Sharp
       c.Dispose();
       return trans.transactions;
 		}
+
+    public async Task<Balance[]> GetBalancesAsync(string accountId)
+    {
+      var transurl = $"{burl}accounts/{accountId}/balances/";
+      var c = SetupClient();
+      var trans = await c.GetFromJsonAsync<BalancesMain>(transurl);
+      c.Dispose();
+      return trans.balances;
+    }
   }
 
 }
