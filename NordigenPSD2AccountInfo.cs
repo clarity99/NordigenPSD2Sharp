@@ -22,7 +22,8 @@ namespace NordigenPSD2Sharp
 		public DateTime valueDate { get; set; }
 		public DateTime bookingDate { get; set; }
 		public string remittanceInformationUnstructured { get; set; }
-	}
+    public string[] remittanceInformationUnstructuredArray { get; set; }
+  }
 
 	public class Transactions
 	{
