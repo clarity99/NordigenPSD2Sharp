@@ -24,7 +24,7 @@ namespace NordigenPSD2Sharp
     public string iban { get; set; }
   }
 
-  [DebuggerDisplay("{debtorName} {transactionAmount} EUR {bookingDate} {remittanceInformationUnstructured}")]
+  [DebuggerDisplay("{debtorName} {transactionAmount.amount} EUR {bookingDate} {remittanceInformationUnstructured}")]
   public class Transaction
 
   {
