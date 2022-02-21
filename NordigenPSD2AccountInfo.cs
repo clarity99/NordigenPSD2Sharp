@@ -112,12 +112,21 @@ namespace NordigenPSD2Sharp
     public string ownerName { get; set; }
   }
 
+  public class AgreementReq
+  {
+    public int max_historical_days { get; set; }
+    public int access_valid_for_days { get; set; }
+    public string[] access_scope { get; set; }
+    public string institution_id { get; set; }
+  }
   public class Agreement
   {
     public string id { get; set; }
+    public DateTime created { get; set; }
     public int max_historical_days { get; set; }
     public int access_valid_for_days { get; set; }
     public string accepted { get; set; }
+    public string institution_id { get; set; }
   }
 
   public class BalancesMain
@@ -262,6 +271,25 @@ namespace NordigenPSD2Sharp
       }
     }
 
+    public async Task<Agreement> CreateAgreementAsync(string institutionId, int maxHistoricalDays, int accessValidForDays, string[] accessScope)
+    {
+      var transurl = $"{burl}agreements/enduser/";
+      using (var c = SetupClient())
+      {
+
+        var reqData = new AgreementReq
+        {
+          max_historical_days = maxHistoricalDays,
+          access_valid_for_days = accessValidForDays,
+          access_scope = accessScope,
+          institution_id = institutionId
+        };
+        var rString = JsonSerializer.Serialize(reqData);
+
+        var req = await PostDataAsync<Agreement>(c, transurl, rString);
+        return req;
+      }
+    }
 
     public async Task<Requisition> CreateRequisitionAsync(string institution_id, string redirect, string reference, string agreement, string user_language)
     {
