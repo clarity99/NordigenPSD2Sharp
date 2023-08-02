@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -151,6 +152,34 @@ namespace NordigenPSD2Sharp
     public int status_code { get; set; }
   }
 
+  
+
+public class RequisitionResult
+  {
+    public string id { get; set; }
+    public DateTime created { get; set; }
+    public string redirect { get; set; }
+    public string status { get; set; }
+    public string institution_id { get; set; }
+    public string agreement { get; set; }
+    public string reference { get; set; }
+    public List<string> accounts { get; set; }
+    public string user_language { get; set; }
+    public string link { get; set; }
+    public string ssn { get; set; }
+    public bool account_selection { get; set; }
+    public bool redirect_immediate { get; set; }
+  }
+
+  public class RequisitionResultRoot
+  {
+    public int count { get; set; }
+    public string next { get; set; }
+    public string previous { get; set; }
+    public List<RequisitionResult> results { get; set; }
+  }
+
+
   public class NordigenPSD2AccountInfo
   {
     private string _token;
@@ -227,6 +256,17 @@ namespace NordigenPSD2Sharp
       }
       
 		}
+
+    public async Task<List<RequisitionResult>> GetRequisitionsAsync()
+    {
+      var transurl = $"{burl}requisitions/?limits=100&offset=1";
+      using (var c = SetupClient())
+      {
+        var reqs = await GetDataAsync<RequisitionResultRoot>(c, transurl);
+        return reqs.results;
+      }
+
+    }
 
     public async Task<Token> GetToken(string secretid, string secretkey)
     {
